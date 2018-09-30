@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CamaraCreateDlg" widgetVar="CamaraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Registro Nueva Cámara" closeOnEscape="true">
+
+            <h:form id="CamaraCreateForm">
+
+                <h:panelGroup id="display" rendered="#{camaraController.selected != null}">
+                    <p:focus context="camaraIdComuna"/>
+                    <p:panelGrid columns="2" columnClasses="column">
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraIdComuna}" for="camaraIdComuna" />
+                        <p:selectOneMenu id="camaraIdComuna" value="#{camaraController.selected.camaraIdComuna}" required="true" requiredMessage="#{bundle.CreateCamaraRequiredMessage_camaraIdComuna}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{comunaController.items}"
+                                           var="camaraIdComunaItem"
+                                           itemValue="#{camaraIdComunaItem}"
+                                           itemLabel="#{camaraIdComunaItem.comunaNombre} - #{camaraIdComunaItem.comunaIdCiudad.ciudadNombre}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Mapa:" for="camaraIdComuna" />
+                        <p:gmap id="gmap" center="-33.0214859,-71.5324473" zoom="13" type="HYBRID" draggable="true"  onPointClick="handlePointClick(event);" model="#{camaraController.draggableModel}" style="width:600px;height:400px" widgetVar="map" >
+                            <p:ajax event="markerDrag" listener="#{camaraController.onMarkerDrag}" update="growl, camaraDireccionNombre, camaraPosicionLongitud, camaraPosicionLatitud" />
+                        </p:gmap>
+
+                        <p:outputLabel value="Nombre:" for="camaraDireccionNombre" />
+                        <p:inputText id="camaraDireccionNombre" value="#{camaraController.selected.camaraNombre}" title="#{bundle.CreateCamaraTitle_camaraDireccionCalle}" required="true" requiredMessage="#{bundle.CreateCamaraRequiredMessage_camaraDireccionCalle}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraDireccionCalle}" for="camaraDireccionCalle" />
+                        <p:inputText id="camaraDireccionCalle" value="#{camaraController.selected.camaraDireccionCalle}" title="#{bundle.CreateCamaraTitle_camaraDireccionCalle}" required="true" requiredMessage="#{bundle.CreateCamaraRequiredMessage_camaraDireccionCalle}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraDireccionNumero}" for="camaraDireccionNumero" />
+                        <p:inputText id="camaraDireccionNumero" value="#{camaraController.selected.camaraDireccionNumero}" title="#{bundle.CreateCamaraTitle_camaraDireccionNumero}" required="true" requiredMessage="#{bundle.CreateCamaraRequiredMessage_camaraDireccionNumero}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraPosicionLongitud}" for="camaraPosicionLongitud" />
+                        <p:inputText id="camaraPosicionLongitud" value="#{camaraController.selected.camaraPosicionLongitud}" title="#{bundle.CreateCamaraTitle_camaraPosicionLongitud}" required="true" requiredMessage="#{bundle.CreateCamaraRequiredMessage_camaraPosicionLongitud}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraPosicionLatitud}" for="camaraPosicionLatitud" />
+                        <p:inputText id="camaraPosicionLatitud" value="#{camaraController.selected.camaraPosicionLatitud}" title="#{bundle.CreateCamaraTitle_camaraPosicionLatitud}" required="true" requiredMessage="#{bundle.CreateCamaraRequiredMessage_camaraPosicionLatitud}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraAltura}" for="camaraAltura" />
+                        <p:inputText id="camaraAltura" value="#{camaraController.selected.camaraAltura}" title="#{bundle.CreateCamaraTitle_camaraAltura}"/>
+
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraAnguloVision}" for="camaraAnguloVision" />
+                        <p:inputText id="camaraAnguloVision" value="#{camaraController.selected.camaraAnguloVision}" title="#{bundle.CreateCamaraTitle_camaraAnguloVision}"/>
+
+
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraUrl}" for="camaraUrl" />
+                        <p:inputText id="camaraUrl" value="#{camaraController.selected.camaraUrl}" title="#{bundle.CreateCamaraTitle_camaraUrl}" required="true" requiredMessage="#{bundle.CreateCamaraRequiredMessage_camaraUrl}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.CreateCamaraLabel_camaraIdTipo}" for="camaraIdTipo" />
+                        <p:selectOneMenu id="camaraIdTipo" value="#{camaraController.selected.camaraIdTipo}" required="true" requiredMessage="#{bundle.CreateCamaraRequiredMessage_camaraIdTipo}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoCamaraController.items}"
+                                           var="camaraIdTipoItem"
+                                           itemValue="#{camaraIdTipoItem}"
+                                           itemLabel="#{camaraIdTipoItem.tipoCamaraMarca}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{camaraController.saveNew}" value="#{bundle.Save}" update="display,:CamaraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CamaraCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('CamaraCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <p:dialog widgetVar="dlg" showEffect="fade">
+            <h:form prependId="false">
+                <h:panelGrid columns="2" columnClasses="column, column">                    
+
+                    <h:outputLabel for="title" value="Nombre:" />
+                    <p:inputText id="title" value="#{camaraController.nombre}" />
+                    <p:separator/>
+                    <p:separator/>
+                    <f:facet name="footer">
+                        <p:commandButton value="Agregar" actionListener="#{camaraController.addMarker}" update=":growl, CamaraCreateForm:camaraPosicionLongitud, CamaraCreateForm:camaraPosicionLatitud, CamaraCreateForm:camaraDireccionNombre" oncomplete="markerAddComplete()" />
+                        <p:commandButton value="Cancelar" onclick="return cancel()" />
+                    </f:facet>
+                </h:panelGrid>
+
+                <h:inputHidden id="lat" value="#{camaraController.lat}" />
+                <h:inputHidden id="lng" value="#{camaraController.lng}" />
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

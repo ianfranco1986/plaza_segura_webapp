@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PersonaInteresViewDlg" widgetVar="PersonaInteresViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewPersonaInteresTitle}" closeOnEscape="true">
+
+            <h:form id="PersonaInteresViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{personaInteresController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewPersonaInteresLabel_personaInteresId}"/>
+                        <h:outputText value="#{personaInteresController.selected.personaInteresId}" title="#{bundle.ViewPersonaInteresTitle_personaInteresId}"/>
+
+                        <h:outputText value="#{bundle.ViewPersonaInteresLabel_personaInteresDocumento}"/>
+                        <h:outputText value="#{personaInteresController.selected.personaInteresDocumento}" title="#{bundle.ViewPersonaInteresTitle_personaInteresDocumento}"/>
+
+                        <h:outputText value="#{bundle.ViewPersonaInteresLabel_personaInteresNombres}"/>
+                        <h:outputText value="#{personaInteresController.selected.personaInteresNombres}" title="#{bundle.ViewPersonaInteresTitle_personaInteresNombres}"/>
+
+                        <h:outputText value="#{bundle.ViewPersonaInteresLabel_personaInteresApellidos}"/>
+                        <h:outputText value="#{personaInteresController.selected.personaInteresApellidos}" title="#{bundle.ViewPersonaInteresTitle_personaInteresApellidos}"/>
+
+                        <h:outputText value="#{bundle.ViewPersonaInteresLabel_personaInteresObservacion}"/>
+                        <h:outputText value="#{personaInteresController.selected.personaInteresObservacion}" title="#{bundle.ViewPersonaInteresTitle_personaInteresObservacion}"/>
+
+                        <h:outputText value="#{bundle.ViewPersonaInteresLabel_personaInteresActivo}"/>
+                        <p:selectBooleanCheckbox id="personaInteresActivo" value="#{personaInteresController.selected.personaInteresActivo}" title="#{bundle.EditPersonaInteresTitle_personaInteresActivo}" required="true" requiredMessage="#{bundle.EditPersonaInteresRequiredMessage_personaInteresActivo}"/>
+
+                        <h:outputText value="#{bundle.ViewPersonaInteresLabel_personaInteresIdNacionalidad}"/>
+                        <h:outputText value="#{personaInteresController.selected.personaInteresIdNacionalidad.nacionalidadId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('PersonaInteresViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

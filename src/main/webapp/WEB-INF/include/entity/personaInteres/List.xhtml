@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PersonaInteresListForm">
+
+
+        <p:contextMenu id="PersonaInteresDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('PersonaInteresListForm:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('PersonaInteresListForm:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('PersonaInteresListForm:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('PersonaInteresListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+            <p:menuitem value="#{bundle.PersonaInteresMenuItem_personaInteresIdNacionalidad}" icon="ui-icon-search"  actionListener="#{personaInteresController.preparePersonaInteresIdNacionalidad}" update=":NacionalidadViewForm" oncomplete="PF('NacionalidadViewDialog').show()" disabled="#{empty personaInteresController.selected.personaInteresIdNacionalidad}"/>  
+            <p:menuitem value="#{bundle.PersonaInteresMenuItem_alertaPersonaInteresList}" icon="ui-icon-search"  action="#{personaInteresController.navigateAlertaPersonaInteresList}" disabled="#{personaInteresController.isAlertaPersonaInteresListEmpty}" ajax="false"/>  
+            <p:menuitem value="#{bundle.PersonaInteresMenuItem_antecedentesList}" icon="ui-icon-search"  action="#{personaInteresController.navigateAntecedentesList}" disabled="#{personaInteresController.isAntecedentesListEmpty}" ajax="false"/>  
+        </p:contextMenu>
+        <p:dataTable id="datalist"
+                     value="#{personaInteresController.items}"
+                     lazy="false"
+                     rowKey="#{item.personaInteresId}"
+                     var="item"
+                     paginator="true"
+                     rows="100"
+                     rowsPerPageTemplate="100, 200, 500"
+                     selectionMode="single"
+                     selection="#{personaInteresController.selected}"
+                     filteredValue="#{personaInteresController.filteredItems}"
+                     reflow="true"
+                     rowIndexVar="rowIndex"                     
+                     emptyMessage="No se han encontrado registros"
+                     widgetVar="datalistWidget">
+            <!--
+                     To enable Lazy Loading, please copy/replace the following lines above,
+                     and be sure to replace the word HASH with the # symbol:
+            
+                     value="HASH{personaInteresController.lazyItems}"
+                     lazy="true"
+                     rowKey="HASH{item.personaInteresId}"  <<< Remove this line
+            -->
+
+
+            <p:ajax event="rowSelect"   update="datalist:createButton,datalist:viewButton,datalist:editButton,datalist:deleteButton,@form:PersonaInteresDataTableContextMenu" listener="#{personaInteresController.resetParents}"/>
+            <p:ajax event="rowUnselect" update="datalist:createButton,datalist:viewButton,datalist:editButton,datalist:deleteButton,@form:PersonaInteresDataTableContextMenu" listener="#{personaInteresController.resetParents}"/>
+            <p:ajax event="contextMenu" update="datalist:createButton datalist:viewButton datalist:editButton datalist:deleteButton" listener="#{personaInteresController.resetParents}"/>
+            <p:ajax event="rowDblselect" onsuccess="document.getElementById('PersonaInteresListForm:viewButton').click();"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-5">
+                        <h:outputText value="Personas de Interés"/>   
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="pull-right">
+
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{personaInteresController.prepareCreate}" update=":PersonaInteresCreateForm" oncomplete="PF('PersonaInteresCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":PersonaInteresViewForm" oncomplete="PF('PersonaInteresViewDialog').show()" disabled="#{empty personaInteresController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PersonaInteresEditForm" oncomplete="PF('PersonaInteresEditDialog').show()" disabled="#{empty personaInteresController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{personaInteresController.delete}" update=":growl,datalist" disabled="#{empty personaInteresController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                            </p:commandButton>
+
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListPersonaInteresTitle_personaInteresId}"/>
+                </f:facet>
+                <h:outputText value="#{item.personaInteresId}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.personaInteresDocumento}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListPersonaInteresTitle_personaInteresDocumento}"/>
+                </f:facet>
+                <h:outputText value="#{item.personaInteresDocumento}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.personaInteresNombres}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListPersonaInteresTitle_personaInteresNombres}"/>
+                </f:facet>
+                <h:outputText value="#{item.personaInteresNombres}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.personaInteresApellidos}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListPersonaInteresTitle_personaInteresApellidos}"/>
+                </f:facet>
+                <h:outputText value="#{item.personaInteresApellidos}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.personaInteresObservacion}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListPersonaInteresTitle_personaInteresObservacion}"/>
+                </f:facet>
+                <h:outputText value="#{item.personaInteresObservacion}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.personaInteresActivo}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListPersonaInteresTitle_personaInteresActivo}"/>
+                </f:facet>
+                <h:selectBooleanCheckbox id="personaInteresActivo" value="#{item.personaInteresActivo}" title="#{bundle.EditPersonaInteresTitle_personaInteresActivo}" required="true" requiredMessage="#{bundle.EditPersonaInteresRequiredMessage_personaInteresActivo}" disabled="true"/>
+            </p:column>
+
+            <p:column sortBy="#{item.personaInteresIdNacionalidad.nacionalidadId}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListPersonaInteresTitle_personaInteresIdNacionalidad}"/>
+                </f:facet>
+                <h:outputText value="#{item.personaInteresIdNacionalidad.nacionalidadNombre}"/>
+            </p:column>
+
+        </p:dataTable>
+
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

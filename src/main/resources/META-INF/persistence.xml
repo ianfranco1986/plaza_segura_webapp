@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.areatecnica_plaza_segura_webapp_war_1.0PU" transaction-type="JTA">
+    <jta-data-source>java:/plazasegura</jta-data-source>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Alerta</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.AlertaPersonaInteres</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Antecedentes</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Camara</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Ciudad</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Comuna</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Nacionalidad</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.PersonaInteres</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Region</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.TipoAlerta</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.TipoCamara</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.TipoUsuario</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Usuario</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Menu</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Privilegio</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.Rol</class>
+    <class>com.areatecnica.plaza_segura_webapp.entities.RolMenu</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties/>
+  </persistence-unit>
+</persistence>

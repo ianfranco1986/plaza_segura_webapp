@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AlertaPersonaInteresViewDlg" widgetVar="AlertaPersonaInteresViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewAlertaPersonaInteresTitle}" closeOnEscape="true">
+
+            <h:form id="AlertaPersonaInteresViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{alertaPersonaInteresController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewAlertaPersonaInteresLabel_alertaPersonaInteresId}"/>
+                        <h:outputText value="#{alertaPersonaInteresController.selected.alertaPersonaInteresId}" title="#{bundle.ViewAlertaPersonaInteresTitle_alertaPersonaInteresId}"/>
+
+                        <h:outputText value="#{bundle.ViewAlertaPersonaInteresLabel_alertaPersonaInteresIdAlerta}"/>
+                        <h:outputText value="#{alertaPersonaInteresController.selected.alertaPersonaInteresIdAlerta.alertaId}"/>
+
+                        <h:outputText value="#{bundle.ViewAlertaPersonaInteresLabel_alertaPersonaInteresIdPersona}"/>
+                        <h:outputText value="#{alertaPersonaInteresController.selected.alertaPersonaInteresIdPersona.personaInteresId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('AlertaPersonaInteresViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

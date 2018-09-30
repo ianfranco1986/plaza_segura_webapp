@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CamaraListForm">
+        <p:contextMenu id="CamaraDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('CamaraListForm:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('CamaraListForm:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('CamaraListForm:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('CamaraListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>            
+        </p:contextMenu>
+        <p:dataTable id="datalist"
+                     value="#{camaraController.items}"
+                     lazy="false"
+                     rowKey="#{item.camaraId}"
+                     var="item"
+                     paginator="true"
+                     rows="100"
+                     rowsPerPageTemplate="100, 200, 500"
+                     selectionMode="single"
+                     selection="#{camaraController.selected}"
+                     reflow="true"
+                     rowIndexVar="rowIndex"
+                     filteredValue="#{camaraController.filteredItems}"
+                     emptyMessage="No se han encontrado registros"
+                     widgetVar="datalistWidget">
+            <!--
+                     To enable Lazy Loading, please copy/replace the following lines above,
+                     and be sure to replace the word HASH with the # symbol:
+            
+                     value="HASH{camaraController.lazyItems}"
+                     lazy="true"
+                     rowKey="HASH{item.camaraId}"  <<< Remove this line
+            -->
+
+
+            <p:ajax event="rowSelect"   update="datalist:createButton,datalist:viewButton,datalist:editButton,datalist:deleteButton,@form:CamaraDataTableContextMenu" listener="#{camaraController.loadMap}"/>
+            <p:ajax event="rowUnselect" update="datalist:createButton,datalist:viewButton,datalist:editButton,datalist:deleteButton,@form:CamaraDataTableContextMenu" listener="#{camaraController.resetParents}"/>
+            <p:ajax event="contextMenu" update="datalist:createButton datalist:viewButton datalist:editButton datalist:deleteButton" listener="#{camaraController.resetParents}"/>
+            <p:ajax event="rowDblselect" onsuccess="document.getElementById('CamaraListForm:viewButton').click();"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-5">
+                        <h:outputText value="Cámaras"/>   
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="pull-right">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{camaraController.prepareCreate}" update=":CamaraCreateForm" oncomplete="PF('CamaraCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":CamaraViewForm" oncomplete="PF('CamaraViewDialog').show()" disabled="#{empty camaraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":CamaraEditForm" oncomplete="PF('CamaraEditDialog').show()" disabled="#{empty camaraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{camaraController.delete}" update=":growl,datalist" disabled="#{empty camaraController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputText value="#{rowIndex+1}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.camaraIdComuna.comunaNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Comuna"/>
+                </f:facet>
+                <h:outputText value="#{item.camaraIdComuna.comunaNombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.camaraDireccionCalle}">
+                <f:facet name="header">
+                    <h:outputText value="Calle"/>
+                </f:facet>
+                <h:outputText value="#{item.camaraDireccionCalle}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.camaraDireccionNumero}">
+                <f:facet name="header">
+                    <h:outputText value="Número"/>
+                </f:facet>
+                <h:outputText value="#{item.camaraDireccionNumero}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.camaraPosicionLongitud}">
+                <f:facet name="header">
+                    <h:outputText value="Longitud"/>
+                </f:facet>
+                <h:outputText value="#{item.camaraPosicionLongitud}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.camaraPosicionLatitud}" >
+                <f:facet name="header">
+                    <h:outputText value="Latitud"/>
+                </f:facet>
+                <h:outputText value="#{item.camaraPosicionLatitud}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.camaraUrl}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListCamaraTitle_camaraUrl}"/>
+                </f:facet>
+                <h:outputText value="#{item.camaraUrl}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.camaraIdTipo.tipoCamaraId}" >
+                <f:facet name="header">
+                    <h:outputText value="Tipo"/>
+                </f:facet>
+                <h:outputText value="#{item.camaraIdTipo.tipoCamaraMarca}"/>
+            </p:column>
+
+        </p:dataTable>
+
+
+
+
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

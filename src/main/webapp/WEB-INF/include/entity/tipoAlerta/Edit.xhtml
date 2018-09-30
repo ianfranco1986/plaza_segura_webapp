@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TipoAlertaEditDlg" widgetVar="TipoAlertaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditTipoAlertaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoAlertaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{tipoAlertaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditTipoAlertaLabel_tipoAlertaId}" for="tipoAlertaId" />
+                        <h:outputText id="tipoAlertaId" value="#{tipoAlertaController.selected.tipoAlertaId}" />
+
+                        <p:outputLabel value="#{bundle.EditTipoAlertaLabel_tipoAlertaNombre}" for="tipoAlertaNombre" />
+                        <p:inputText id="tipoAlertaNombre" value="#{tipoAlertaController.selected.tipoAlertaNombre}" title="#{bundle.EditTipoAlertaTitle_tipoAlertaNombre}" required="true" requiredMessage="#{bundle.EditTipoAlertaRequiredMessage_tipoAlertaNombre}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoAlertaController.save}" value="#{bundle.Save}" update="display,:TipoAlertaListForm:datalist,:TipoAlertaListForm:TipoAlertaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoAlertaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('TipoAlertaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

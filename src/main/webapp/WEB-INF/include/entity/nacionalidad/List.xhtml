@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="NacionalidadListForm">
+
+        <p:panel header="#{bundle.ListNacionalidadTitle}">
+            <p:contextMenu id="NacionalidadDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('NacionalidadListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('NacionalidadListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('NacionalidadListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('NacionalidadListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.NacionalidadMenuItem_personaInteresList}" icon="ui-icon-search"  action="#{nacionalidadController.navigatePersonaInteresList}" disabled="#{nacionalidadController.isPersonaInteresListEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{nacionalidadController.items}"
+                         lazy="false"
+                         rowKey="#{item.nacionalidadId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="100, 200, 500"
+                         selectionMode="single"
+                         selection="#{nacionalidadController.selected}"
+                         filteredValue="#{nacionalidadController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{nacionalidadController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.nacionalidadId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:NacionalidadDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:NacionalidadDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('NacionalidadListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.nacionalidadId}" filterBy="#{item.nacionalidadId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListNacionalidadTitle_nacionalidadId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nacionalidadId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nacionalidadNombre}" filterBy="#{item.nacionalidadNombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListNacionalidadTitle_nacionalidadNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nacionalidadNombre}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{nacionalidadController.prepareCreate}" update=":NacionalidadCreateForm" oncomplete="PF('NacionalidadCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":NacionalidadViewForm" oncomplete="PF('NacionalidadViewDialog').show()" disabled="#{empty nacionalidadController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":NacionalidadEditForm" oncomplete="PF('NacionalidadEditDialog').show()" disabled="#{empty nacionalidadController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{nacionalidadController.delete}" update=":growl,datalist" disabled="#{empty nacionalidadController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

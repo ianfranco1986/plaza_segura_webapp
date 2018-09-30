@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuarioController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditUsuarioLabel_usuarioId}" for="usuarioId" />
+                        <h:outputText id="usuarioId" value="#{usuarioController.selected.usuarioId}" />
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioNombre}" for="usuarioNombre" />
+                        <p:inputText id="usuarioNombre" value="#{usuarioController.selected.usuarioNombre}" title="#{bundle.EditUsuarioTitle_usuarioNombre}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioNombre}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioApellido}" for="usuarioApellido" />
+                        <p:inputText id="usuarioApellido" value="#{usuarioController.selected.usuarioApellido}" title="#{bundle.EditUsuarioTitle_usuarioApellido}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioApellido}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioRut}" for="usuarioRut" />
+                        <p:inputText id="usuarioRut" value="#{usuarioController.selected.usuarioRut}" title="#{bundle.EditUsuarioTitle_usuarioRut}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioRut}" size="13" maxlength="13"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioCorreo}" for="usuarioCorreo" />
+                        <p:inputText id="usuarioCorreo" value="#{usuarioController.selected.usuarioCorreo}" title="#{bundle.EditUsuarioTitle_usuarioCorreo}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioCorreo}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioPassword}" for="usuarioPassword" />
+                        <p:inputText id="usuarioPassword" value="#{usuarioController.selected.usuarioPassword}" title="#{bundle.EditUsuarioTitle_usuarioPassword}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioPassword}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioFechaRegistro}" for="usuarioFechaRegistro" />
+                        <p:calendar id="usuarioFechaRegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.usuarioFechaRegistro}" title="#{bundle.EditUsuarioTitle_usuarioFechaRegistro}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioFechaRegistro}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioActivo}" for="usuarioActivo" />
+                        <p:selectBooleanCheckbox id="usuarioActivo" value="#{usuarioController.selected.usuarioActivo}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioIdRol}" for="usuarioIdRol" />
+                        <p:selectOneMenu id="usuarioIdRol" value="#{usuarioController.selected.usuarioIdRol}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioIdRol}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rolController.items}"
+                                           var="usuarioIdRolItem"
+                                           itemValue="#{usuarioIdRolItem}"
+                                           itemLabel="#{usuarioIdRolItem.rolNombre}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuarioIdTipo}" for="usuarioIdTipo" />
+                        <p:selectOneMenu id="usuarioIdTipo" value="#{usuarioController.selected.usuarioIdTipo}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioIdTipo}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoUsuarioController.items}"
+                                           var="usuarioIdTipoItem"
+                                           itemValue="#{usuarioIdTipoItem}"
+                                           itemLabel="#{usuarioIdTipoItem.tipoUsuarioNombre}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.save}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:UsuarioListForm:UsuarioDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('UsuarioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

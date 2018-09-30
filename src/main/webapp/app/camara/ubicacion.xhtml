@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <h:form id="BusListForm">            
+
+        <p:gmap id="gmap" model="#{ubicacionController.mapModel}" center="-33.07640382976732,-71.45355834960935" zoom="11" type="HYBRID"  style="width:100%;height:800px">
+            <p:ajax event="overlaySelect" listener="#{ubicacionController.onMarkerSelect}" />
+
+            <p:gmapInfoWindow id="infoWindow">
+                <p:outputPanel style="text-align: center; display: block; margin: auto">
+
+                    <!--<p:graphicImage name="/demo/images/antalya/# {infoWindowView.marker.data}" height="150" />-->
+                    <br />
+                    <h:outputText value="#{ubicacionController.marker.title}" />
+                    
+                </p:outputPanel>
+            </p:gmapInfoWindow>
+        </p:gmap>
+    </h:form>        
+
+
+</ui:composition>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UsuarioListForm">
+        <p:contextMenu id="UsuarioDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('UsuarioListForm:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('UsuarioListForm:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('UsuarioListForm:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('UsuarioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+            <p:menuitem value="#{bundle.UsuarioMenuItem_usuarioIdTipo}" icon="ui-icon-search"  actionListener="#{usuarioController.prepareUsuarioIdTipo}" update=":TipoUsuarioViewForm" oncomplete="PF('TipoUsuarioViewDialog').show()" disabled="#{empty usuarioController.selected.usuarioIdTipo}"/>  
+        </p:contextMenu>
+        <p:dataTable id="datalist"
+                     value="#{usuarioController.items}"
+                     lazy="false"
+                     rowKey="#{item.usuarioId}"
+                     var="item"
+                     paginator="true"
+                     rows="100"
+                     rowsPerPageTemplate="100, 200, 500"
+                     selectionMode="single"
+                     selection="#{usuarioController.selected}"
+                     filteredValue="#{usuarioController.filteredItems}"
+                     reflow="true"
+                     rowIndexVar="rowIndex"                     
+                     emptyMessage="No se han encontrado registros"
+                     widgetVar="datalistWidget">
+            <!--
+                     To enable Lazy Loading, please copy/replace the following lines above,
+                     and be sure to replace the word HASH with the # symbol:
+            
+                     value="HASH{usuarioController.lazyItems}"
+                     lazy="true"
+                     rowKey="HASH{item.usuarioId}"  <<< Remove this line
+            -->
+
+
+            <p:ajax event="rowSelect"   update="datalist:createButton,datalist:viewButton,datalist:editButton,datalist:deleteButton,@form:UsuarioDataTableContextMenu" listener="#{usuarioController.resetParents}"/>
+            <p:ajax event="rowUnselect" update="datalist:createButton,datalist:viewButton,datalist:editButton,datalist:deleteButton,@form:UsuarioDataTableContextMenu" listener="#{usuarioController.resetParents}"/>
+            <p:ajax event="contextMenu" update="datalist:createButton datalist:viewButton datalist:editButton datalist:deleteButton" listener="#{usuarioController.resetParents}"/>
+            <p:ajax event="rowDblselect" onsuccess="document.getElementById('UsuarioListForm:viewButton').click();"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{myBundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-5">
+                        <h:outputText value="Usuarios"/>   
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="pull-right">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty usuarioController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{usuarioController.delete}" update=":growl,datalist" disabled="#{empty usuarioController.selected}">
+                                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                            </p:commandButton>                           
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputText value="#{rowIndex+1}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.usuarioCorreo}">
+                <f:facet name="header">
+                    <h:outputText value="Correo"/>
+                </f:facet>
+                <h:outputText value="#{item.usuarioCorreo}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.usuarioFechaRegistro}">
+                <f:facet name="header">
+                    <h:outputText value="Fecha Registro"/>
+                </f:facet>
+                <h:outputText value="#{item.usuarioFechaRegistro}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+
+            <p:column sortBy="#{item.usuarioIdTipo.tipoUsuarioNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Tipo"/>
+                </f:facet>
+                <h:outputText value="#{item.usuarioIdTipo.tipoUsuarioNombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.usuarioActivo}">
+                <f:facet name="header">
+                    <h:outputText value="Estado"/>
+                </f:facet>
+                <h:selectBooleanCheckbox id="usuarioActivo" value="#{item.usuarioActivo}" title="#{bundle.EditUsuarioTitle_usuarioActivo}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usuarioActivo}" disabled="true"/>
+            </p:column>
+        </p:dataTable>
+
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

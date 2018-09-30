@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AlertaPersonaInteresListForm">
+
+        <p:panel header="#{bundle.ListAlertaPersonaInteresTitle}">
+            <p:contextMenu id="AlertaPersonaInteresDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('AlertaPersonaInteresListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{bundle.View}" onclick="document.getElementById('AlertaPersonaInteresListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('AlertaPersonaInteresListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('AlertaPersonaInteresListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{bundle.AlertaPersonaInteresMenuItem_alertaPersonaInteresIdAlerta}" icon="ui-icon-search"  actionListener="#{alertaPersonaInteresController.prepareAlertaPersonaInteresIdAlerta}" update=":AlertaViewForm" oncomplete="PF('AlertaViewDialog').show()" disabled="#{empty alertaPersonaInteresController.selected.alertaPersonaInteresIdAlerta}"/>  
+                <p:menuitem value="#{bundle.AlertaPersonaInteresMenuItem_alertaPersonaInteresIdPersona}" icon="ui-icon-search"  actionListener="#{alertaPersonaInteresController.prepareAlertaPersonaInteresIdPersona}" update=":PersonaInteresViewForm" oncomplete="PF('PersonaInteresViewDialog').show()" disabled="#{empty alertaPersonaInteresController.selected.alertaPersonaInteresIdPersona}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{alertaPersonaInteresController.items}"
+                         lazy="false"
+                         rowKey="#{item.alertaPersonaInteresId}"
+                         var="item"
+                         paginator="true"
+                         rows="100"
+                         rowsPerPageTemplate="100, 200, 500"
+                         selectionMode="single"
+                         selection="#{alertaPersonaInteresController.selected}"
+                         filteredValue="#{alertaPersonaInteresController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{alertaPersonaInteresController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.alertaPersonaInteresId}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AlertaPersonaInteresDataTableContextMenu" listener="#{alertaPersonaInteresController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:AlertaPersonaInteresDataTableContextMenu" listener="#{alertaPersonaInteresController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{alertaPersonaInteresController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('AlertaPersonaInteresListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.alertaPersonaInteresId}" filterBy="#{item.alertaPersonaInteresId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAlertaPersonaInteresTitle_alertaPersonaInteresId}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.alertaPersonaInteresId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.alertaPersonaInteresIdAlerta.alertaId}" filterBy="#{item.alertaPersonaInteresIdAlerta.alertaId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAlertaPersonaInteresTitle_alertaPersonaInteresIdAlerta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.alertaPersonaInteresIdAlerta.alertaId}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.alertaPersonaInteresIdPersona.personaInteresId}" filterBy="#{item.alertaPersonaInteresIdPersona.personaInteresId}">
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListAlertaPersonaInteresTitle_alertaPersonaInteresIdPersona}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.alertaPersonaInteresIdPersona.personaInteresId}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{alertaPersonaInteresController.prepareCreate}" update=":AlertaPersonaInteresCreateForm" oncomplete="PF('AlertaPersonaInteresCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{bundle.View}" update=":AlertaPersonaInteresViewForm" oncomplete="PF('AlertaPersonaInteresViewDialog').show()" disabled="#{empty alertaPersonaInteresController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AlertaPersonaInteresEditForm" oncomplete="PF('AlertaPersonaInteresEditDialog').show()" disabled="#{empty alertaPersonaInteresController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{alertaPersonaInteresController.delete}" update=":growl,datalist" disabled="#{empty alertaPersonaInteresController.selected}">
+                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

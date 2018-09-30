@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.CamaraTitle}"/>
+    </ui:define>
+
+    <ui:include src="/WEB-INF/include/entity/camara/List.xhtml"/>
+    <ui:include src="/WEB-INF/include/entity/camara/View.xhtml"/>
+    <ui:include src="/WEB-INF/include/entity/camara/Edit.xhtml"/>
+    <ui:include src="/WEB-INF/include/entity/camara/Create.xhtml"/>
+    <ui:include src="/WEB-INF/include/entity/comuna/View.xhtml"/>
+    <ui:include src="/WEB-INF/include/entity/tipoCamara/View.xhtml"/>
+
+</ui:composition>

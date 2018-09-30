@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AlertaViewDlg" widgetVar="AlertaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewAlertaTitle}" closeOnEscape="true">
+
+            <h:form id="AlertaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{alertaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewAlertaLabel_alertaId}"/>
+                        <h:outputText value="#{alertaController.selected.alertaId}" title="#{bundle.ViewAlertaTitle_alertaId}"/>
+
+                        <h:outputText value="#{bundle.ViewAlertaLabel_alertaFechaHora}"/>
+                        <h:outputText value="#{alertaController.selected.alertaFechaHora}" title="#{bundle.ViewAlertaTitle_alertaFechaHora}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{bundle.ViewAlertaLabel_alertaIdCamara}"/>
+                        <h:outputText value="#{alertaController.selected.alertaIdCamara.camaraId}"/>
+
+                        <h:outputText value="#{bundle.ViewAlertaLabel_alertaIdTipo}"/>
+                        <h:outputText value="#{alertaController.selected.alertaIdTipo.tipoAlertaId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('AlertaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

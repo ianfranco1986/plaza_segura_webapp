@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PersonaInteresEditDlg" widgetVar="PersonaInteresEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditPersonaInteresTitle}" closeOnEscape="true">
+
+            <h:form id="PersonaInteresEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{personaInteresController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditPersonaInteresLabel_personaInteresId}" for="personaInteresId" />
+                        <h:outputText id="personaInteresId" value="#{personaInteresController.selected.personaInteresId}" />
+
+                        <p:outputLabel value="#{bundle.EditPersonaInteresLabel_personaInteresDocumento}" for="personaInteresDocumento" />
+                        <p:inputText id="personaInteresDocumento" value="#{personaInteresController.selected.personaInteresDocumento}" title="#{bundle.EditPersonaInteresTitle_personaInteresDocumento}" required="true" requiredMessage="#{bundle.EditPersonaInteresRequiredMessage_personaInteresDocumento}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{bundle.EditPersonaInteresLabel_personaInteresNombres}" for="personaInteresNombres" />
+                        <p:inputText id="personaInteresNombres" value="#{personaInteresController.selected.personaInteresNombres}" title="#{bundle.EditPersonaInteresTitle_personaInteresNombres}" required="true" requiredMessage="#{bundle.EditPersonaInteresRequiredMessage_personaInteresNombres}" size="250" maxlength="250"/>
+
+                        <p:outputLabel value="#{bundle.EditPersonaInteresLabel_personaInteresApellidos}" for="personaInteresApellidos" />
+                        <p:inputText id="personaInteresApellidos" value="#{personaInteresController.selected.personaInteresApellidos}" title="#{bundle.EditPersonaInteresTitle_personaInteresApellidos}" required="true" requiredMessage="#{bundle.EditPersonaInteresRequiredMessage_personaInteresApellidos}" size="250" maxlength="250"/>
+
+                        <p:outputLabel value="#{bundle.EditPersonaInteresLabel_personaInteresObservacion}" for="personaInteresObservacion" />
+                        <p:inputTextarea rows="4" cols="30" id="personaInteresObservacion" value="#{personaInteresController.selected.personaInteresObservacion}" title="#{bundle.EditPersonaInteresTitle_personaInteresObservacion}" />
+
+                        <p:outputLabel value="#{bundle.EditPersonaInteresLabel_personaInteresActivo}" for="personaInteresActivo" />
+                        <p:selectBooleanCheckbox id="personaInteresActivo" value="#{personaInteresController.selected.personaInteresActivo}" required="true" requiredMessage="#{bundle.EditPersonaInteresRequiredMessage_personaInteresActivo}"/>
+
+                        <p:outputLabel value="#{bundle.EditPersonaInteresLabel_personaInteresIdNacionalidad}" for="personaInteresIdNacionalidad" />
+                        <p:selectOneMenu id="personaInteresIdNacionalidad" value="#{personaInteresController.selected.personaInteresIdNacionalidad}" required="true" requiredMessage="#{bundle.EditPersonaInteresRequiredMessage_personaInteresIdNacionalidad}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{nacionalidadController.items}"
+                                           var="personaInteresIdNacionalidadItem"
+                                           itemValue="#{personaInteresIdNacionalidadItem}"
+                                           itemLabel="#{personaInteresIdNacionalidadItem.nacionalidadId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{personaInteresController.save}" value="#{bundle.Save}" update="display,:PersonaInteresListForm:datalist,:PersonaInteresListForm:PersonaInteresDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PersonaInteresEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PersonaInteresEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AlertaPersonaInteresCreateDlg" widgetVar="AlertaPersonaInteresCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAlertaPersonaInteresTitle}" closeOnEscape="true">
+
+            <h:form id="AlertaPersonaInteresCreateForm">
+
+                <h:panelGroup id="display" rendered="#{alertaPersonaInteresController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateAlertaPersonaInteresLabel_alertaPersonaInteresIdAlerta}" for="alertaPersonaInteresIdAlerta" />
+                        <p:selectOneMenu id="alertaPersonaInteresIdAlerta" value="#{alertaPersonaInteresController.selected.alertaPersonaInteresIdAlerta}" required="true" requiredMessage="#{bundle.CreateAlertaPersonaInteresRequiredMessage_alertaPersonaInteresIdAlerta}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{alertaController.items}"
+                                           var="alertaPersonaInteresIdAlertaItem"
+                                           itemValue="#{alertaPersonaInteresIdAlertaItem}"
+                                           itemLabel="#{alertaPersonaInteresIdAlertaItem.alertaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateAlertaPersonaInteresLabel_alertaPersonaInteresIdPersona}" for="alertaPersonaInteresIdPersona" />
+                        <p:selectOneMenu id="alertaPersonaInteresIdPersona" value="#{alertaPersonaInteresController.selected.alertaPersonaInteresIdPersona}" required="true" requiredMessage="#{bundle.CreateAlertaPersonaInteresRequiredMessage_alertaPersonaInteresIdPersona}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personaInteresController.items}"
+                                           var="alertaPersonaInteresIdPersonaItem"
+                                           itemValue="#{alertaPersonaInteresIdPersonaItem}"
+                                           itemLabel="#{alertaPersonaInteresIdPersonaItem.personaInteresId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{alertaPersonaInteresController.saveNew}" value="#{bundle.Save}" update="display,:AlertaPersonaInteresListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AlertaPersonaInteresCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AlertaPersonaInteresCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

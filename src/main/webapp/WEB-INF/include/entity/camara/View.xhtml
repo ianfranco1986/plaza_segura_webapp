@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CamaraViewDlg" widgetVar="CamaraViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewCamaraTitle}" closeOnEscape="true">
+
+            <h:form id="CamaraViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{camaraController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraId}"/>
+                        <h:outputText value="#{camaraController.selected.camaraId}" title="#{bundle.ViewCamaraTitle_camaraId}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraNombre}"/>
+                        <h:outputText value="#{camaraController.selected.camaraNombre}" title="#{bundle.ViewCamaraTitle_camaraNombre}"/>
+
+                        <h:outputText value="Mapa:"/>
+                        <p:gmap id="gmap" center="#{camaraController.lat},#{camaraController.lng}" zoom="18" type="HYBRID" model="#{camaraController.draggableModel}" style="width:600px;height:400px" widgetVar="map" >                            
+                        </p:gmap>
+                        
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraDireccionCalle}"/>
+                        <h:outputText value="#{camaraController.selected.camaraDireccionCalle}" title="#{bundle.ViewCamaraTitle_camaraDireccionCalle}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraDireccionNumero}"/>
+                        <h:outputText value="#{camaraController.selected.camaraDireccionNumero}" title="#{bundle.ViewCamaraTitle_camaraDireccionNumero}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraPosicionLongitud}"/>
+                        <h:outputText value="#{camaraController.selected.camaraPosicionLongitud}" title="#{bundle.ViewCamaraTitle_camaraPosicionLongitud}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraPosicionLatitud}"/>
+                        <h:outputText value="#{camaraController.selected.camaraPosicionLatitud}" title="#{bundle.ViewCamaraTitle_camaraPosicionLatitud}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraUrl}"/>
+                        <h:outputText value="#{camaraController.selected.camaraUrl}" title="#{bundle.ViewCamaraTitle_camaraUrl}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraAltura}"/>
+                        <h:outputText value="#{camaraController.selected.camaraAltura}" title="#{bundle.ViewCamaraTitle_camaraAltura}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraAnguloVision}"/>
+                        <h:outputText value="#{camaraController.selected.camaraAnguloVision}" title="#{bundle.ViewCamaraTitle_camaraAnguloVision}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraIdComuna}"/>
+                        <h:outputText value="#{camaraController.selected.camaraIdComuna.comunaNombre}"/>
+
+                        <h:outputText value="#{bundle.ViewCamaraLabel_camaraIdTipo}"/>
+                        <h:outputText value="#{camaraController.selected.camaraIdTipo.tipoCamaraMarca}"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('CamaraViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

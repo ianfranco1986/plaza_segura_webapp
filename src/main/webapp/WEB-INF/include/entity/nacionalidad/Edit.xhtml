@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="NacionalidadEditDlg" widgetVar="NacionalidadEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditNacionalidadTitle}" closeOnEscape="true">
+
+            <h:form id="NacionalidadEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{nacionalidadController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditNacionalidadLabel_nacionalidadId}" for="nacionalidadId" />
+                        <h:outputText id="nacionalidadId" value="#{nacionalidadController.selected.nacionalidadId}" />
+
+                        <p:outputLabel value="#{bundle.EditNacionalidadLabel_nacionalidadNombre}" for="nacionalidadNombre" />
+                        <p:inputText id="nacionalidadNombre" value="#{nacionalidadController.selected.nacionalidadNombre}" title="#{bundle.EditNacionalidadTitle_nacionalidadNombre}" required="true" requiredMessage="#{bundle.EditNacionalidadRequiredMessage_nacionalidadNombre}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{nacionalidadController.save}" value="#{bundle.Save}" update="display,:NacionalidadListForm:datalist,:NacionalidadListForm:NacionalidadDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('NacionalidadEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('NacionalidadEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

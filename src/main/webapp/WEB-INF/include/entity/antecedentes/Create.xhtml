@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AntecedentesCreateDlg" widgetVar="AntecedentesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAntecedentesTitle}" closeOnEscape="true">
+
+            <h:form id="AntecedentesCreateForm">
+
+                <h:panelGroup id="display" rendered="#{antecedentesController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreateAntecedentesLabel_antecedentesDescripcion}" for="antecedentesDescripcion" />
+                        <p:inputTextarea rows="4" cols="30" id="antecedentesDescripcion" value="#{antecedentesController.selected.antecedentesDescripcion}" title="#{bundle.CreateAntecedentesTitle_antecedentesDescripcion}" required="true" requiredMessage="#{bundle.CreateAntecedentesRequiredMessage_antecedentesDescripcion}"/>
+
+                        <p:outputLabel value="#{bundle.CreateAntecedentesLabel_antecedentesIdPersona}" for="antecedentesIdPersona" />
+                        <p:selectOneMenu id="antecedentesIdPersona" value="#{antecedentesController.selected.antecedentesIdPersona}" required="true" requiredMessage="#{bundle.CreateAntecedentesRequiredMessage_antecedentesIdPersona}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{personaInteresController.items}"
+                                           var="antecedentesIdPersonaItem"
+                                           itemValue="#{antecedentesIdPersonaItem}"
+                                           itemLabel="#{antecedentesIdPersonaItem.personaInteresId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{antecedentesController.saveNew}" value="#{bundle.Save}" update="display,:AntecedentesListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AntecedentesCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AntecedentesCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

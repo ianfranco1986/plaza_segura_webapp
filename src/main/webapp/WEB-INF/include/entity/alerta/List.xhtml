@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="AlertaListForm">
+
+
+        <p:contextMenu id="AlertaDataTableContextMenu" for="datalist">  
+            <p:menuitem value="#{bundle.Create}" onclick="document.getElementById('AlertaListForm:createButton').click();" icon="ui-icon-plus"/>
+            <p:menuitem value="#{bundle.View}" onclick="document.getElementById('AlertaListForm:viewButton').click();" icon="ui-icon-search"/>
+            <p:menuitem value="#{bundle.Edit}" onclick="document.getElementById('AlertaListForm:editButton').click();" icon="ui-icon-pencil"/>
+            <p:menuitem value="#{bundle.Delete}" onclick="document.getElementById('AlertaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+            <p:separator/>
+        </p:contextMenu>
+        <p:dataTable id="datalist"
+                     value="#{alertaController.items}"
+                     lazy="false"
+                     rowKey="#{item.alertaId}"
+                     var="item"
+                     paginator="true"
+                     rows="100"
+                     rowsPerPageTemplate="100, 200, 500"
+                     selectionMode="single"
+                     selection="#{alertaController.selected}"
+                     filteredValue="#{alertaController.filteredItems}"
+                     reflow="true"
+                     rowIndexVar="rowIndex"                     
+                     emptyMessage="No se han encontrado registros"
+                     widgetVar="datalistWidget">
+            <!--
+                     To enable Lazy Loading, please copy/replace the following lines above,
+                     and be sure to replace the word HASH with the # symbol:
+            
+                     value="HASH{alertaController.lazyItems}"
+                     lazy="true"
+                     rowKey="HASH{item.alertaId}"  <<< Remove this line
+            -->
+
+
+            <p:ajax event="rowSelect"   update="datalist:createButton,datalist:viewButton,datalist:editButton,datalist:deleteButton,@form:AlertaDataTableContextMenu" listener="#{alertaController.load}"/>
+            <p:ajax event="rowUnselect" update="datalist:createButton,datalist:viewButton,datalist:editButton,datalist:deleteButton,@form:AlertaDataTableContextMenu" listener="#{alertaController.resetParents}"/>
+            <p:ajax event="contextMenu" update="datalist:createButton datalist:viewButton datalist:editButton datalist:deleteButton" listener="#{alertaController.resetParents}"/>
+            <p:ajax event="rowDblselect" onsuccess="document.getElementById('AlertaListForm:viewButton').click();"/>
+
+            <f:facet name="header">
+                <div class="row row-nomargin">
+                    <div class="col-lg-3">
+                        <p:inputText id="globalFilter" onkeyup="PF('datalistWidget').filter()" class="pull-left" style="width: 100%" placeholder="#{bundle.enterKeyword}"/>
+                    </div>
+                    <div class="col-lg-5">
+                        <h:outputText value="Últimas Alertas"/>   
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="pull-right">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{alertaController.prepareCreate}" update=":AlertaCreateForm" oncomplete="PF('AlertaCreateDialog').show()" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":AlertaViewForm" oncomplete="PF('AlertaViewDialog').show()" disabled="#{empty alertaController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":AlertaEditForm" oncomplete="PF('AlertaEditDialog').show()" disabled="#{empty alertaController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{alertaController.delete}" update=":growl,datalist" disabled="#{empty alertaController.selected}" onstart="PF('Loading').show()" onsuccess="PF('Loading').hide()">
+                                <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </div>
+            </f:facet>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="#"/>
+                </f:facet>
+                <h:outputText value="#{rowIndex+1}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.alertaFechaHora}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListAlertaTitle_alertaFechaHora}"/>
+                </f:facet>
+                <h:outputText value="#{item.alertaFechaHora}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+
+
+            <p:column sortBy="#{item.alertaIdCamara.camaraNombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListAlertaTitle_alertaIdCamara}"/>
+                </f:facet>
+                <h:outputText value="#{item.alertaIdCamara.camaraNombre}"/>
+            </p:column>
+
+            <p:column sortBy="#{item.alertaIdCamara.camaraIdComuna.comunaNombre}">
+                <f:facet name="header">
+                    <h:outputText value="Comuna"/>
+                </f:facet>
+                <h:outputText value="#{item.alertaIdCamara.camaraIdComuna.comunaNombre}"/>
+            </p:column>
+
+
+            <p:column sortBy="#{item.alertaIdTipo.tipoAlertaNombre}">
+                <f:facet name="header">
+                    <h:outputText value="#{bundle.ListAlertaTitle_alertaIdTipo}"/>
+                </f:facet>
+                <h:outputText value="#{item.alertaIdTipo.tipoAlertaNombre}"/>
+            </p:column>
+
+            <p:column style="width:32px;text-align: center">
+                <p:commandButton update=":AlertaListForm:alertaDetail" oncomplete="PF('alertaDialog').show()" icon="ui-icon-search" title="Ver">
+                    <f:setPropertyActionListener value="#{item}" target="#{alertaController.selected}" />
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
+
+        <p:dialog header="Detalle Alerta" widgetVar="alertaDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:outputPanel id="alertaDetail" style="text-align:center;">
+                <p:panelGrid  columns="2" rendered="#{not empty alertaController.selected}" columnClasses="column,column">
+                    <p:outputLabel value="Fecha/Hora:" />
+                    <h:outputText value="#{alertaController.selected.alertaFechaHora}" >
+                        <f:convertDateTime pattern="HH:mm dd/MM/yy"/>
+                    </h:outputText>
+
+                    <h:outputText value="Comuna:" />
+                    <h:outputText value="#{alertaController.selected.alertaIdCamara.camaraIdComuna.comunaNombre}" />
+
+                    <h:outputText value="Cámara:" />
+                    <h:outputText value="#{alertaController.selected.alertaIdCamara.camaraNombre}" />
+
+                    <h:outputText value="Mapa:"/>
+                    <p:gmap id="gmap" center="#{alertaController.lat},#{alertaController.lng}" zoom="18" type="HYBRID" model="#{alertaController.mapModel}" style="width:600px;height:400px" widgetVar="map" >                            
+                    </p:gmap>
+
+                    <h:outputText value="Tipo Alerta:" />
+                    <h:outputText value="#{alertaController.selected.alertaIdTipo.tipoAlertaNombre}" />
+
+                </p:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+
+
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

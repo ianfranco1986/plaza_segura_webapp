@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoAlertaViewDlg" widgetVar="TipoAlertaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.ViewTipoAlertaTitle}" closeOnEscape="true">
+
+            <h:form id="TipoAlertaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipoAlertaController.selected != null}">
+
+                        <h:outputText value="#{bundle.ViewTipoAlertaLabel_tipoAlertaId}"/>
+                        <h:outputText value="#{tipoAlertaController.selected.tipoAlertaId}" title="#{bundle.ViewTipoAlertaTitle_tipoAlertaId}"/>
+
+                        <h:outputText value="#{bundle.ViewTipoAlertaLabel_tipoAlertaNombre}"/>
+                        <h:outputText value="#{tipoAlertaController.selected.tipoAlertaNombre}" title="#{bundle.ViewTipoAlertaTitle_tipoAlertaNombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PF('TipoAlertaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

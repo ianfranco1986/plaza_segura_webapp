@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AlertaEditDlg" widgetVar="AlertaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{bundle.EditAlertaTitle}" closeOnEscape="true">
+
+            <h:form id="AlertaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{alertaController.selected != null}">
+
+
+                        <h:outputLabel value="#{bundle.EditAlertaLabel_alertaId}" for="alertaId" />
+                        <h:outputText id="alertaId" value="#{alertaController.selected.alertaId}" />
+
+                        <p:outputLabel value="#{bundle.EditAlertaLabel_alertaFechaHora}" for="alertaFechaHora" />
+                        <p:calendar id="alertaFechaHora" pattern="MM/dd/yyyy HH:mm:ss" value="#{alertaController.selected.alertaFechaHora}" title="#{bundle.EditAlertaTitle_alertaFechaHora}" required="true" requiredMessage="#{bundle.EditAlertaRequiredMessage_alertaFechaHora}" showOn="button"/>
+
+                        <p:outputLabel value="#{bundle.EditAlertaLabel_alertaIdCamara}" for="alertaIdCamara" />
+                        <p:selectOneMenu id="alertaIdCamara" value="#{alertaController.selected.alertaIdCamara}" required="true" requiredMessage="#{bundle.EditAlertaRequiredMessage_alertaIdCamara}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{camaraController.items}"
+                                           var="alertaIdCamaraItem"
+                                           itemValue="#{alertaIdCamaraItem}"
+                                           itemLabel="#{alertaIdCamaraItem.camaraId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.EditAlertaLabel_alertaIdTipo}" for="alertaIdTipo" />
+                        <p:selectOneMenu id="alertaIdTipo" value="#{alertaController.selected.alertaIdTipo}" required="true" requiredMessage="#{bundle.EditAlertaRequiredMessage_alertaIdTipo}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoAlertaController.items}"
+                                           var="alertaIdTipoItem"
+                                           itemValue="#{alertaIdTipoItem}"
+                                           itemLabel="#{alertaIdTipoItem.tipoAlertaId.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{alertaController.save}" value="#{bundle.Save}" update="display,:AlertaListForm:datalist,:AlertaListForm:AlertaDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AlertaEditDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('AlertaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

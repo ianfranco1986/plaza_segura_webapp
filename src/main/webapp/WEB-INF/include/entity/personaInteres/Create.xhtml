@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PersonaInteresCreateDlg" widgetVar="PersonaInteresCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePersonaInteresTitle}" closeOnEscape="true">
+
+            <h:form id="PersonaInteresCreateForm">
+
+                <h:panelGroup id="display" rendered="#{personaInteresController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{bundle.CreatePersonaInteresLabel_personaInteresDocumento}" for="personaInteresDocumento" />
+                        <p:inputText id="personaInteresDocumento" value="#{personaInteresController.selected.personaInteresDocumento}" title="#{bundle.CreatePersonaInteresTitle_personaInteresDocumento}" required="true" requiredMessage="#{bundle.CreatePersonaInteresRequiredMessage_personaInteresDocumento}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{bundle.CreatePersonaInteresLabel_personaInteresIdNacionalidad}" for="personaInteresIdNacionalidad" />
+                        <p:selectOneMenu id="personaInteresIdNacionalidad" value="#{personaInteresController.selected.personaInteresIdNacionalidad}" required="true" requiredMessage="#{bundle.CreatePersonaInteresRequiredMessage_personaInteresIdNacionalidad}" converter="omnifaces.SelectItemsConverter">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{nacionalidadController.items}"
+                                           var="personaInteresIdNacionalidadItem"
+                                           itemValue="#{personaInteresIdNacionalidadItem}"
+                                           itemLabel="#{personaInteresIdNacionalidadItem.nacionalidadNombre}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreatePersonaInteresLabel_personaInteresNombres}" for="personaInteresNombres" />
+                        <p:inputText id="personaInteresNombres" value="#{personaInteresController.selected.personaInteresNombres}" title="#{bundle.CreatePersonaInteresTitle_personaInteresNombres}" required="true" requiredMessage="#{bundle.CreatePersonaInteresRequiredMessage_personaInteresNombres}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.CreatePersonaInteresLabel_personaInteresApellidos}" for="personaInteresApellidos" />
+                        <p:inputText id="personaInteresApellidos" value="#{personaInteresController.selected.personaInteresApellidos}" title="#{bundle.CreatePersonaInteresTitle_personaInteresApellidos}" required="true" requiredMessage="#{bundle.CreatePersonaInteresRequiredMessage_personaInteresApellidos}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{bundle.CreatePersonaInteresLabel_personaInteresObservacion}" for="personaInteresObservacion" />
+                        <p:inputTextarea rows="4" cols="100" id="personaInteresObservacion" value="#{personaInteresController.selected.personaInteresObservacion}" title="#{bundle.CreatePersonaInteresTitle_personaInteresObservacion}" />
+
+                        <p:outputLabel value="Fotografías"/>
+                        <h:panelGroup>
+
+                            <p:fileUpload  fileUploadListener="#{personaInteresController.handleFileUpload}" 
+                                           mode="advanced" 
+                                           dragDropSupport="false" 
+                                           multiple="true" 
+                                           update="growl" 
+                                           sizeLimit="100000" 
+                                           fileLimit="5" 
+                                           allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                           cancelLabel="Cancelar" 
+                                           label="Seleccionar" 
+                                           uploadLabel="Subir" 
+                                           skinSimple="true"
+                                           previewWidth="40"
+                                           />
+
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{personaInteresController.saveNew}" value="#{bundle.Save}" update="display,:PersonaInteresListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PersonaInteresCreateDialog'));">
+                        <p:confirm header="#{bundle.ConfirmationHeader}" message="#{bundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{bundle.Cancel}" oncomplete="PF('PersonaInteresCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
