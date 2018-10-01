@@ -1,9 +1,9 @@
-package com.areatecnica.plaza_segura.webapp.login;
+package com.areatecnica.plaza_segura_webapp.login;
 
 import com.areatecnica.plaza_segura.webapp.dao.ILoginDao;
-import com.areatecnica.plaza_segura.webapp.dao.impl.ILoginDaoImpl;
-import com.areatecnica.plaza_segura.webapp.util.CommonPage;
-import com.areatecnica.plaza_segura.webapp.util.UserForm;
+import com.areatecnica.plaza_segura_webapp.dao.impl.ILoginDaoImpl;
+import com.areatecnica.plaza_segura_webapp.util.CommonPage;
+import com.areatecnica.plaza_segura_webapp.util.UserForm;
 import com.areatecnica.plaza_segura_webapp.controller.util.JsfUtil;
 import com.areatecnica.plaza_segura_webapp.entities.Usuario;
 import java.io.IOException;

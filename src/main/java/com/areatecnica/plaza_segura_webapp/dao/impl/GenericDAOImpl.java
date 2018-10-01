@@ -1,4 +1,4 @@
-package com.areatecnica.plaza_segura.webapp.dao.impl;
+package com.areatecnica.plaza_segura_webapp.dao.impl;
 
 import com.areatecnica.plaza_segura.webapp.dao.IGenericDAO;
 import java.util.List;

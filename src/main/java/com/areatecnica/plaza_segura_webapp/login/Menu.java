@@ -1,4 +1,4 @@
-package com.areatecnica.plaza_segura.webapp.login;
+package com.areatecnica.plaza_segura_webapp.login;
 
 
 import java.io.Serializable;

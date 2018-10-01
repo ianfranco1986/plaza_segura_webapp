@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.areatecnica.plaza_segura.webapp.util;
+package com.areatecnica.plaza_segura_webapp.util;
 
 /**
  *

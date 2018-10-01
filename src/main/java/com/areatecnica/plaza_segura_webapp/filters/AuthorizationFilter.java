@@ -1,4 +1,4 @@
-package com.areatecnica.plaza_segura.webapp.filters;
+package com.areatecnica.plaza_segura_webapp.filters;
 
 
 import com.areatecnica.plaza_segura_webapp.controller.util.JsfUtil;

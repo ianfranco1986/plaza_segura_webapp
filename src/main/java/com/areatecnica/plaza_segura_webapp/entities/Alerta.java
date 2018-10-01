@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -39,6 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Alerta.findByAlertaId", query = "SELECT a FROM Alerta a WHERE a.alertaId = :alertaId")
     , @NamedQuery(name = "Alerta.findByAlertaFechaHora", query = "SELECT a FROM Alerta a WHERE a.alertaFechaHora = :alertaFechaHora")})
 public class Alerta implements Serializable {
+
+    @Size(max = 100)
+    @Column(name = "alerta_descripcion")
+    private String alertaDescripcion;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -136,6 +141,14 @@ public class Alerta implements Serializable {
     @Override
     public String toString() {
         return "com.areatecnica.plaza_segura_webapp.entities.Alerta[ alertaId=" + alertaId + " ]";
+    }
+
+    public String getAlertaDescripcion() {
+        return alertaDescripcion;
+    }
+
+    public void setAlertaDescripcion(String alertaDescripcion) {
+        this.alertaDescripcion = alertaDescripcion;
     }
     
 }

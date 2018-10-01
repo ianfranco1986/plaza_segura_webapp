@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.areatecnica.plaza_segura.webapp.login;
+package com.areatecnica.plaza_segura_webapp.login;
 
-import com.areatecnica.plaza_segura.webapp.util.Name2DateValuePOJO;
-import com.areatecnica.plaza_segura.webapp.util.Name2ValuePOJO;
-import com.areatecnica.plaza_segura.webapp.util.Name3ValuePOJO;
+import com.areatecnica.plaza_segura_webapp.util.Name2DateValuePOJO;
+import com.areatecnica.plaza_segura_webapp.util.Name2ValuePOJO;
+import com.areatecnica.plaza_segura_webapp.util.Name3ValuePOJO;
 import com.areatecnica.plaza_segura_webapp.entities.Alerta;
 import com.areatecnica.plaza_segura_webapp.entities.PersonaInteres;
 import java.io.Serializable;

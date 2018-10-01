@@ -1,4 +1,4 @@
-package com.areatecnica.plaza_segura.webapp.util;
+package com.areatecnica.plaza_segura_webapp.util;
 
 
 

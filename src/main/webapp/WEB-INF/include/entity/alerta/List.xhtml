@@ -107,6 +107,13 @@
                 <h:outputText value="#{item.alertaIdTipo.tipoAlertaNombre}"/>
             </p:column>
 
+            <p:column sortBy="#{item.alertaDescripcion}">
+                <f:facet name="header">
+                    <h:outputText value="Descripción"/>
+                </f:facet>
+                <h:outputText value="#{item.alertaDescripcion}"/>
+            </p:column>
+
             <p:column style="width:32px;text-align: center">
                 <p:commandButton update=":AlertaListForm:alertaDetail" oncomplete="PF('alertaDialog').show()" icon="ui-icon-search" title="Ver">
                     <f:setPropertyActionListener value="#{item}" target="#{alertaController.selected}" />

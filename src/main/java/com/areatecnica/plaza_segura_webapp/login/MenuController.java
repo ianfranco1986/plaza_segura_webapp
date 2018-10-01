@@ -1,7 +1,7 @@
-package com.areatecnica.plaza_segura.webapp.login;
+package com.areatecnica.plaza_segura_webapp.login;
 
 import com.areatecnica.plaza_segura.webapp.dao.IRolMenuDao;
-import com.areatecnica.plaza_segura.webapp.dao.impl.IRolMenuDaoImpl;
+import com.areatecnica.plaza_segura_webapp.dao.impl.IRolMenuDaoImpl;
 import com.areatecnica.plaza_segura_webapp.controller.util.JsfUtil;
 import com.areatecnica.plaza_segura_webapp.entities.Privilegio;
 import com.areatecnica.plaza_segura_webapp.entities.RolMenu;

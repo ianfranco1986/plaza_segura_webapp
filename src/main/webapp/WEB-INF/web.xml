@@ -6,7 +6,7 @@
     </context-param>
     <filter>
         <filter-name>SessionTimeoutFilter</filter-name>
-        <filter-class>com.areatecnica.plaza_segura.webapp.filters.SessionTimeoutFilter</filter-class>
+        <filter-class>com.areatecnica.plaza_segura_webapp.filters.SessionTimeoutFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>SessionTimeoutFilter</filter-name>
@@ -22,7 +22,7 @@
     </context-param>
     <filter>
         <filter-name>AuthorizationFilter</filter-name>
-        <filter-class>com.areatecnica.plaza_segura.webapp.filters.AuthorizationFilter</filter-class>
+        <filter-class>com.areatecnica.plaza_segura_webapp.filters.AuthorizationFilter</filter-class>
     </filter>
     <context-param>
         <param-name>primefaces.THEME</param-name>
