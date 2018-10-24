@@ -36,16 +36,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "camara", catalog = "plaza_segura", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Camara.findAll", query = "SELECT c FROM Camara c")
-    , @NamedQuery(name = "Camara.findByCamaraId", query = "SELECT c FROM Camara c WHERE c.camaraId = :camaraId")
-    , @NamedQuery(name = "Camara.findByCamaraNombre", query = "SELECT c FROM Camara c WHERE c.camaraNombre = :camaraNombre")
-    , @NamedQuery(name = "Camara.findByCamaraDireccionCalle", query = "SELECT c FROM Camara c WHERE c.camaraDireccionCalle = :camaraDireccionCalle")
-    , @NamedQuery(name = "Camara.findByCamaraDireccionNumero", query = "SELECT c FROM Camara c WHERE c.camaraDireccionNumero = :camaraDireccionNumero")
-    , @NamedQuery(name = "Camara.findByCamaraPosicionLongitud", query = "SELECT c FROM Camara c WHERE c.camaraPosicionLongitud = :camaraPosicionLongitud")
-    , @NamedQuery(name = "Camara.findByCamaraPosicionLatitud", query = "SELECT c FROM Camara c WHERE c.camaraPosicionLatitud = :camaraPosicionLatitud")
-    , @NamedQuery(name = "Camara.findByCamaraUrl", query = "SELECT c FROM Camara c WHERE c.camaraUrl = :camaraUrl")
-    , @NamedQuery(name = "Camara.findByCamaraAltura", query = "SELECT c FROM Camara c WHERE c.camaraAltura = :camaraAltura")
-    , @NamedQuery(name = "Camara.findByCamaraAnguloVision", query = "SELECT c FROM Camara c WHERE c.camaraAnguloVision = :camaraAnguloVision")})
+    @NamedQuery(name = "Camara.findAll", query = "SELECT c FROM Camara c"),
+    @NamedQuery(name = "Camara.findByCamaraId", query = "SELECT c FROM Camara c WHERE c.camaraId = :camaraId"),
+    @NamedQuery(name = "Camara.findByCamaraIdComuna", query = "SELECT c FROM Camara c WHERE c.camaraIdComuna = :camaraIdComuna"),
+    @NamedQuery(name = "Camara.findByCamaraNombre", query = "SELECT c FROM Camara c WHERE c.camaraNombre = :camaraNombre"),
+    @NamedQuery(name = "Camara.findByCamaraDireccionCalle", query = "SELECT c FROM Camara c WHERE c.camaraDireccionCalle = :camaraDireccionCalle"),
+    @NamedQuery(name = "Camara.findByCamaraDireccionNumero", query = "SELECT c FROM Camara c WHERE c.camaraDireccionNumero = :camaraDireccionNumero"),
+    @NamedQuery(name = "Camara.findByCamaraPosicionLongitud", query = "SELECT c FROM Camara c WHERE c.camaraPosicionLongitud = :camaraPosicionLongitud"),
+    @NamedQuery(name = "Camara.findByCamaraPosicionLatitud", query = "SELECT c FROM Camara c WHERE c.camaraPosicionLatitud = :camaraPosicionLatitud"),
+    @NamedQuery(name = "Camara.findByCamaraUrl", query = "SELECT c FROM Camara c WHERE c.camaraUrl = :camaraUrl"),
+    @NamedQuery(name = "Camara.findByCamaraAltura", query = "SELECT c FROM Camara c WHERE c.camaraAltura = :camaraAltura"),
+    @NamedQuery(name = "Camara.findByCamaraAnguloVision", query = "SELECT c FROM Camara c WHERE c.camaraAnguloVision = :camaraAnguloVision")})
 public class Camara implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -234,5 +235,5 @@ public class Camara implements Serializable {
     public String toString() {
         return "com.areatecnica.plaza_segura_webapp.entities.Camara[ camaraId=" + camaraId + " ]";
     }
-    
+
 }

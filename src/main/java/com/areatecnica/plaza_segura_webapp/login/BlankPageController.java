@@ -458,50 +458,50 @@ public class BlankPageController implements Serializable {
         pieModel.set(value);
     }
 
-    private LineChartModel initLinearModel() {
-        LineChartModel model = new LineChartModel();
+//    private LineChartModel initLinearModel() {
+//        LineChartModel model = new LineChartModel();
+//
+//        LineChartSeries serie = new LineChartSeries();
+//        serie.setLabel("Recaudación");
+//        model.setAnimate(true);
+//        model.setMouseoverHighlight(true);
+//
+//        //Total Recaudación Diaria x Mes
+//        String totalRecaudacionDiariaURL = "http://localhost:28080/SIGFRest-1.0/webresources/recaudacion/totalRecaudacionDiaria/" + sdfFirst.format(from) + "/" + sdf.format(to.dayOfMonth().withMaximumValue().toDate());
+//
+//        target = client.target(totalRecaudacionDiariaURL);
+//
+//        JsonArray response = target.request(MediaType.APPLICATION_JSON).get(JsonArray.class);
+//
+//        for (JsonValue j : response) {
+//
+//            JSONObject o = new JSONObject(j.toString());
+//            Name2DateValuePOJO n = new Name2DateValuePOJO(new Date((Long) o.get("name")), o.get("value"));
+//
+//            serie.set(n.getDayPart(), Integer.parseInt(n.getValue()));
+//            System.err.println("DIA: " + n.getDayPart() + " Valor: " + n.getValue());
+//            list.add(n);
+//        }
+//
+//        model.addSeries(serie);
+//        return model;
+//    }
 
-        LineChartSeries serie = new LineChartSeries();
-        serie.setLabel("Recaudación");
-        model.setAnimate(true);
-        model.setMouseoverHighlight(true);
-
-        //Total Recaudación Diaria x Mes
-        String totalRecaudacionDiariaURL = "http://localhost:28080/SIGFRest-1.0/webresources/recaudacion/totalRecaudacionDiaria/" + sdfFirst.format(from) + "/" + sdf.format(to.dayOfMonth().withMaximumValue().toDate());
-
-        target = client.target(totalRecaudacionDiariaURL);
-
-        JsonArray response = target.request(MediaType.APPLICATION_JSON).get(JsonArray.class);
-
-        for (JsonValue j : response) {
-
-            JSONObject o = new JSONObject(j.toString());
-            Name2DateValuePOJO n = new Name2DateValuePOJO(new Date((Long) o.get("name")), o.get("value"));
-
-            serie.set(n.getDayPart(), Integer.parseInt(n.getValue()));
-            System.err.println("DIA: " + n.getDayPart() + " Valor: " + n.getValue());
-            list.add(n);
-        }
-
-        model.addSeries(serie);
-        return model;
-    }
-
-    private void createAnimatedModels() {
-        animatedModel1 = initLinearModel();
-        animatedModel1.setTitle("Recaudación Diaria");
-        animatedModel1.setAnimate(true);
-        animatedModel1.setShadow(true);
-        //animatedModel1.setDatatipFormat();
-        animatedModel1.setLegendPosition("se");
-        Axis x = animatedModel1.getAxis(AxisType.X);
-
-        x.setTickInterval("1");
-        x.setMin(0);
-        x.setMax(31);
-
-        Axis y = animatedModel1.getAxis(AxisType.Y);
-
-    }
+//    private void createAnimatedModels() {
+//        animatedModel1 = initLinearModel();
+//        animatedModel1.setTitle("Recaudación Diaria");
+//        animatedModel1.setAnimate(true);
+//        animatedModel1.setShadow(true);
+//        //animatedModel1.setDatatipFormat();
+//        animatedModel1.setLegendPosition("se");
+//        Axis x = animatedModel1.getAxis(AxisType.X);
+//
+//        x.setTickInterval("1");
+//        x.setMin(0);
+//        x.setMax(31);
+//
+//        Axis y = animatedModel1.getAxis(AxisType.Y);
+//
+//    }
 
 }
