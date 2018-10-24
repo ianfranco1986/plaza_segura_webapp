@@ -7,22 +7,35 @@
 
 
     <h:form id="OnlineListForm">            
-
-        <p:panelGrid columns="2">
-            <p:outputLabel for="comuna" value="Basic:" />
-            <p:selectOneMenu id="comuna" value="#{onlineCamaraController.comuna}" style="width:125px">
+        <p:poll interval="2" update="image" listener="#{onlineCamaraController.handleCameraChange}"/>
+        <p:panelGrid columns="4" style="width: 100%">
+            <p:outputLabel for="comuna" value="Comuna:" />
+            <p:selectOneMenu id="comuna" value="#{onlineCamaraController.comuna}" style="width:125px" converter="omnifaces.SelectItemsConverter">
                 <f:selectItem itemLabel="Seleccionar" />
-                <f:selectItems value="#{onlineCamaraController.comunaItems}"/>
-                <p:ajax event="valueChange" listener="#{onlineCamaraController.handleComunaChange()}" update="camaras"/>
+                <f:selectItems value="#{onlineCamaraController.comunaItems}"
+                               var="com"
+                               itemValue="#{com}"
+                               itemLabel="#{com.comunaNombre}"/>
+                <p:ajax event="valueChange" listener="#{onlineCamaraController.handleComunaChange}" update="camaras"/>
             </p:selectOneMenu>
 
-            <p:outputLabel for="camaras" value="Basic:" />
-            <p:selectOneMenu id="camaras" value="#{onlineCamaraController.camara}" style="width:125px">
+            <p:outputLabel for="camaras" value="Cámara:" />
+            <p:selectOneMenu id="camaras" value="#{onlineCamaraController.camara}" style="width:125px" converter="omnifaces.SelectItemsConverter">
                 <f:selectItem itemLabel="Seleccionar" />
-                <f:selectItems value="#{onlineCamaraController.items}"/>
-
+                <f:selectItems value="#{onlineCamaraController.items}" 
+                               var="cam" 
+                               itemValue="#{cam}"
+                               itemLabel="#{cam.camaraDireccionCalle} - #{cam.camaraDireccionNumero}"/>
+                <p:ajax event="valueChange" listener="#{onlineCamaraController.handleCameraChange}" update="image, gr, growl"/>
             </p:selectOneMenu>
         </p:panelGrid>
+
+
+        <p:panel id="image" header="Cámara Online" style="margin-top: 20px;">
+
+            <p:graphicImage id="gr" value="#{onlineCamaraController.path}" />
+        </p:panel>
+
 
     </h:form>        
 

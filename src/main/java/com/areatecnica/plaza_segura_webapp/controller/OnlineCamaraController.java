@@ -5,6 +5,7 @@
  */
 package com.areatecnica.plaza_segura_webapp.controller;
 
+import com.areatecnica.plaza_segura_webapp.controller.util.JsfUtil;
 import com.areatecnica.plaza_segura_webapp.dao.impl.IComunaDaoImpl;
 import com.areatecnica.plaza_segura_webapp.entities.Camara;
 import com.areatecnica.plaza_segura_webapp.entities.Comuna;
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.persistence.metamodel.SetAttribute;
 
 /**
  *
@@ -26,6 +28,8 @@ public class OnlineCamaraController implements Serializable {
     private List<Comuna> comunaItems;
     private Comuna comuna;
     private Camara camara;
+    private final static String URL = "http://www.areatecnica.cl/images/";
+    private String path = "1";
 
     /**
      * Creates a new instance of OnlineCamaraController
@@ -70,9 +74,29 @@ public class OnlineCamaraController implements Serializable {
         this.comunaItems = comunaItems;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public static String getURL() {
+        return URL;
+    }
+
     public void handleComunaChange() {
         if (this.comuna != null) {
             this.items = this.comuna.getCamaraList();
+        }
+    }
+
+    public void handleCameraChange() {
+        if (this.camara != null) {
+            this.path = URL + camara.getCamaraId() + ".jpg?dummy="+Math.random();
+            System.err.println("PATH: " + this.path);
+            JsfUtil.addSuccessMessage("Actualización");
         }
     }
 
